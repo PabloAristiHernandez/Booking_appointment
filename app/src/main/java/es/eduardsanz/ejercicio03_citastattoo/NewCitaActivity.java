@@ -108,6 +108,9 @@ public class NewCitaActivity extends AppCompatActivity {
                         Toast.makeText(NewCitaActivity.this, "Fechas Incorrectas", Toast.LENGTH_SHORT).show();
                     }
                 }
+                else{
+                    Toast.makeText(NewCitaActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

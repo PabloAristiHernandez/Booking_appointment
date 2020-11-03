@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:ems="10"
-        android:hint="Nombre"
+        android:hint="@string/nombre"
         android:inputType="textPersonName" />
 
     <EditText
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:ems="10"
-        android:hint="Apellidos"
+        android:hint="@string/apellidos"
         android:inputType="textPersonName" />
 
     <EditText
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:ems="10"
-        android:hint="Fecha Nacimiento (dd/mm/aaaa)"
+        android:hint="@string/fecha_nacimiento"
         android:inputType="date" />
 
     <Switch
@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:text="Menor Autorizado"
+        android:text="@string/menor_autorizado"
         android:textAlignment="textEnd" />
 
     <EditText
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:ems="10"
-        android:hint="Fecha Cita (dd/mm/aaaa)"
+        android:hint="@string/fecha_cita"
         android:inputType="date" />
 
     <EditText
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:ems="10"
-        android:hint="Adelanto"
+        android:hint="@string/adelanto"
         android:inputType="numberDecimal" />
 
     <Switch
@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:text="Color/BN"
+        android:text="@string/color_bn"
         android:textAlignment="textEnd"
         android:textOff="Tattoo en Negro"
         android:textOn="Tattoo a Color" />

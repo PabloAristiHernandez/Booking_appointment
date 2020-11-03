@@ -1,15 +1,20 @@
 package es.eduardsanz.ejercicio03_citastattoo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 
 import android.widget.AdapterView;
@@ -18,6 +23,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import es.eduardsanz.ejercicio03_citastattoo.adapters.AdapterCitasTattoo;
+import es.eduardsanz.ejercicio03_citastattoo.configuraciones.Configuraciones;
 import es.eduardsanz.ejercicio03_citastattoo.modelos.CitasTattoo;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
     // Fila o elemento que se repite
     private int filaCita;
 
+    // Almacenamiento Persistente
+    private SharedPreferences spLista;
+    private Gson parser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +49,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        spLista = getSharedPreferences(Configuraciones.SP_DATOS, MODE_PRIVATE);
+        parser = new Gson();
         
         listaCitas = new ArrayList<>();
+        cargaLista();
         contenedorCitas = findViewById(R.id.contenedorCitas);
         filaCita = R.layout.fila_cita_tattoo;
         adapterCitasTattoo = new AdapterCitasTattoo(this, filaCita, listaCitas);
-        contenedorCitas.setAdapter(adapterCitasTattoo);
+
 
         contenedorCitas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -69,7 +83,27 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void cargaLista() {
+        String tempString = spLista.getString(Configuraciones.D_LISTA, null);
+        if (tempString != null){
+            ArrayList<CitasTattoo> temp = parser.fromJson(tempString, new TypeToken< ArrayList<CitasTattoo> >(){}.getType());
+            listaCitas.addAll(temp);
+        }
+    }
 
+    private void guardaLista(){
+        String tempString = parser.toJson(listaCitas);
+        SharedPreferences.Editor editor = spLista.edit();
+        editor.putString(Configuraciones.D_LISTA, tempString);
+        editor.apply();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        contenedorCitas.setAdapter(adapterCitasTattoo);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -79,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 CitasTattoo citasTattoo = data.getExtras().getParcelable("CITA");
                 listaCitas.add(citasTattoo);
                 adapterCitasTattoo.notifyDataSetChanged();
+                guardaLista();
             }
         }
         if (requestCode == EDIT_CITA && resultCode == RESULT_OK){
@@ -94,7 +129,23 @@ public class MainActivity extends AppCompatActivity {
                     listaCitas.set(posicion, citasTattoo);
                 }
                 adapterCitasTattoo.notifyDataSetChanged();
+                guardaLista();
             }
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("LISTA", listaCitas);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        ArrayList<CitasTattoo> temp = savedInstanceState.getParcelableArrayList("LISTA");
+        listaCitas.clear();
+        listaCitas.addAll(temp);
+        Log.d("ELEMENTOS", ""+listaCitas.size());
     }
 }

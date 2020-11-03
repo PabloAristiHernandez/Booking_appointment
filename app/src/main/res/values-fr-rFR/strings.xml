@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ejercicio03-Citas Tattoo</string>
+    <string name="action_settings">Réglages</string>
+    <string name="error">Tout c\'est Obligatoire</string>
+    <string name="nombre">Nom</string>
+    <string name="apellidos">Le nom</string>
+    <string name="fecha_nacimiento">Aniversaire (dd/mm/aaaa)</string>
+    <string name="fecha_cita">Rendez-Vous (dd/mm/yyyy)</string>
+    <string name="menor_autorizado">Mineur Autorisé</string>
+    <string name="adelanto">Adelanto</string>
+    <string name="error_fechas">Date Error (Francés)</string>
+</resources>
